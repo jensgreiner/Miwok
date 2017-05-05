@@ -14,14 +14,17 @@
      limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.android.miwok">
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent=""
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,10 +32,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NumbersActivity" />
-        <activity android:name=".FamilyActivity" />
-        <activity android:name=".ColorsActivity" />
-        <activity android:name=".PhrasesActivity"></activity>
+        <activity
+            android:name=".NumbersActivity"
+            android:label="@string/category_numbers" />
+        <activity
+            android:name=".FamilyActivity"
+            android:label="@string/category_family" />
+        <activity
+            android:name=".ColorsActivity"
+            android:label="@string/category_colors" />
+        <activity
+            android:name=".PhrasesActivity"
+            android:label="@string/category_phrases" />
     </application>
 
 </manifest>
