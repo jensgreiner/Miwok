@@ -2,12 +2,12 @@ package com.example.android.miwok;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class NumbersActivity extends AppCompatActivity {
-
-    private ArrayList<String> words;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +15,7 @@ public class NumbersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_numbers);
 
         // Initialize words ArrayList
-        words = new ArrayList<String>();
+        ArrayList<String> words = new ArrayList<String>();
         words.add("one");
         words.add("two");
         words.add("three");
@@ -27,6 +27,16 @@ public class NumbersActivity extends AppCompatActivity {
         words.add("nine");
         words.add("ten");
 
+        // Find root view of whole layout
+        LinearLayout rootView = (LinearLayout) findViewById(R.id.rootView);
 
+        // Create a new {@link TextView} for each word in words and add it to rootView
+        int numberOfWords = 0;
+        while (numberOfWords < words.size()) {
+            TextView textView = new TextView(this);
+            textView.setText(words.get(numberOfWords));
+            rootView.addView(textView);
+            numberOfWords++;
+        }
     }
 }
