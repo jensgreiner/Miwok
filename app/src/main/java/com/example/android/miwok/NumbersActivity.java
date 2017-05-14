@@ -2,7 +2,6 @@ package com.example.android.miwok;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -28,10 +27,6 @@ public class NumbersActivity extends AppCompatActivity {
         words.add("nine");
         words.add("ten");
 
-        // Verifying the content of words ArrayList
-        for (int i = 0; i < words.size(); i++) {
-            Log.v("NumbersActivity", "Word at index " + i + ": " + words.get(i));
-        }
 
     }
 }
