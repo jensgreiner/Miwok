@@ -31,12 +31,11 @@ public class NumbersActivity extends AppCompatActivity {
         LinearLayout rootView = (LinearLayout) findViewById(R.id.rootView);
 
         // Create a new {@link TextView} for each word in words and add it to rootView
-        int numberOfWords = 0;
-        while (numberOfWords < words.size()) {
+        for (int index = 0; index < words.size(); index++) {
             TextView textView = new TextView(this);
-            textView.setText(words.get(numberOfWords));
+            textView.setText(words.get(index));
             rootView.addView(textView);
-            numberOfWords++;
+
         }
     }
 }
