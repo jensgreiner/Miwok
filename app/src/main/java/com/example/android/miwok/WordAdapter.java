@@ -44,6 +44,7 @@ public class WordAdapter extends ArrayAdapter<Word> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         // Check if the existing view is being reused, otherwise inflate the view
+        // View could be null when the Activity is called first time
         View listItemView = convertView;
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
