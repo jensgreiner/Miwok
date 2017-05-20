@@ -12,9 +12,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * {@link WordAdapter} is an {@link ArrayAdapter} that can provice the layout for each list
+ * {@link WordAdapter} is an {@link ArrayAdapter} that can provide the layout for each list
  * based on a data source, which is a list of {@link Word} objects.
- * Based on {@link https://github.com/udacity/ud839_CustomAdapter_Example}
+ * Based on {@see <a href="https://github.com/udacity/ud839_CustomAdapter_Example">Github:ud839_CustomAdapter_Example</a>}
  * Created by jens on 20.05.17.
  */
 
@@ -57,11 +57,15 @@ public class WordAdapter extends ArrayAdapter<Word> {
         TextView defaultTextView = (TextView) listItemView.findViewById(R.id.default_text_view);
         // Get the default word from the current Word object and
         // set this text on the name TextView
-        defaultTextView.setText(currentWord.getDefaultTranslation());
+        if (currentWord != null) {
+            defaultTextView.setText(currentWord.getDefaultTranslation());
+        }
 
         // Find the TextView named miwok_text_view and then set the corresponding text from current Word object
         TextView miwokTextView = (TextView) listItemView.findViewById(R.id.miwok_text_view);
-        miwokTextView.setText(currentWord.getMiwokTranslation());
+        if (currentWord != null) {
+            miwokTextView.setText(currentWord.getMiwokTranslation());
+        }
 
         return listItemView;
     }
