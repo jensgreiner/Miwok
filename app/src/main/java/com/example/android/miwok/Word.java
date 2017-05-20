@@ -6,13 +6,13 @@ package com.example.android.miwok;
  * Created by jens on 20.05.17.
  */
 
-public class Word {
+class Word {
 
     // private attributes
     // Default translation for the word
-    private String mDefaultTranslation;
+    private final String mDefaultTranslation;
     // Miwok translation for the word
-    private String mMiwokTranslation;
+    private final String mMiwokTranslation;
 
     // Constructors
 
@@ -22,17 +22,17 @@ public class Word {
      * @param defaultTranslation is the word in a language that the user is already familiar with
      * @param miwokTranslation   is the word in the Miwok language
      */
-    public Word(String defaultTranslation, String miwokTranslation) {
+    Word(String defaultTranslation, String miwokTranslation) {
         mDefaultTranslation = defaultTranslation;
         mMiwokTranslation = miwokTranslation;
     }
 
     // Getters
-    public String getDefaultTranslation() {
+    String getDefaultTranslation() {
         return mDefaultTranslation;
     }
 
-    public String getMiwokTranslation() {
+    String getMiwokTranslation() {
         return mMiwokTranslation;
     }
 }

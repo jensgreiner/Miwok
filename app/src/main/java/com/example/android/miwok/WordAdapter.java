@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Created by jens on 20.05.17.
  */
 
-public class WordAdapter extends ArrayAdapter<Word> {
+class WordAdapter extends ArrayAdapter<Word> {
 
 
     /**
@@ -27,7 +27,7 @@ public class WordAdapter extends ArrayAdapter<Word> {
      * @param context The current context. Used to inflate the layout file.
      * @param words   A List of AndroidFlavor objects to display in a list
      */
-    public WordAdapter(Activity context, ArrayList<Word> words) {
+    WordAdapter(Activity context, ArrayList<Word> words) {
         super(context, 0, words);
     }
 
