@@ -8,14 +8,17 @@ package com.example.android.miwok;
 
 class Word {
 
+    /**
+     * Constant value that represents no image was provided for this word
+     */
+    private static final int NO_IMAGE_PROVIDED = -1;
     // private attributes
     // Default translation for the word
     private final String mDefaultTranslation;
     // Miwok translation for the word
     private final String mMiwokTranslation;
-
     // Image as drawable resource ID for the icon
-    private int mImageResourceId;
+    private int mImageResourceId = NO_IMAGE_PROVIDED;
 
     // Constructors
 
@@ -54,5 +57,15 @@ class Word {
 
     public int getmImageResourceId() {
         return mImageResourceId;
+    }
+
+    /**
+     * Returns whether or not there is an image for this word.
+     *
+     * @return true if there is an image resource id set and false, if not
+     */
+    // Public methods
+    public boolean hasImage() {
+        return mImageResourceId != NO_IMAGE_PROVIDED;
     }
 }

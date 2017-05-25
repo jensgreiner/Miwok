@@ -72,11 +72,14 @@ class WordAdapter extends ArrayAdapter<Word> {
         // Find the ImageView named image and then set the corresponding image from current Word object
         ImageView imageView = (ImageView) listItemView.findViewById(R.id.image);
         if (currentWord != null) {
-            if (currentWord.getmImageResourceId() == 0) {
-                imageView.setVisibility(View.GONE);
-            } else {
+            // Check if an image id is provided or not
+            if (currentWord.hasImage()) {
+                // Set the imageView to the given id and make the imageView visible
                 imageView.setVisibility(View.VISIBLE);
                 imageView.setImageResource(currentWord.getmImageResourceId());
+            } else {
+                // No image id given so make imageView invisible/gone
+                imageView.setVisibility(View.GONE);
             }
         }
 
