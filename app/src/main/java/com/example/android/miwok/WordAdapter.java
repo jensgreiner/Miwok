@@ -23,7 +23,7 @@ import java.util.ArrayList;
 class WordAdapter extends ArrayAdapter<Word> {
 
     // Resource ID for background color of word list
-    private int mColorResourceId;
+    private final int mColorResourceId;
 
 
     /**
