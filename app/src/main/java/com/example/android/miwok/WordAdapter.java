@@ -3,6 +3,7 @@ package com.example.android.miwok;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,9 @@ import java.util.ArrayList;
 
 class WordAdapter extends ArrayAdapter<Word> {
 
+    // Resource ID for background color of word list
+    private int mColorResourceId;
+
 
     /**
      * Creates a new WordAdapter as a custom extension of ArrayAdapter class
@@ -28,8 +32,9 @@ class WordAdapter extends ArrayAdapter<Word> {
      * @param context The current context. Used to inflate the layout file.
      * @param words   A List of AndroidFlavor objects to display in a list
      */
-    WordAdapter(Activity context, ArrayList<Word> words) {
+    WordAdapter(Activity context, ArrayList<Word> words, int colorResourceId) {
         super(context, 0, words);
+        mColorResourceId = colorResourceId;
     }
 
     /**
@@ -82,6 +87,13 @@ class WordAdapter extends ArrayAdapter<Word> {
                 imageView.setVisibility(View.GONE);
             }
         }
+
+        // Find the LinearLayout containing the textViews and set its background color
+        View textContainer = listItemView.findViewById(R.id.text_container);
+        // Find the color that the resource ID maps to
+        int color = ContextCompat.getColor(getContext(), mColorResourceId);
+
+        textContainer.setBackgroundColor(color);
 
         return listItemView;
     }
