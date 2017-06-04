@@ -1,12 +1,17 @@
 package com.example.android.miwok;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 public class FamilyActivity extends AppCompatActivity {
+
+    private MediaPlayer mMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,19 +19,19 @@ public class FamilyActivity extends AppCompatActivity {
         setContentView(R.layout.word_list);
 
         // Initialize words ArrayList
-        ArrayList<Word> words = new ArrayList<>();
+        final ArrayList<Word> words = new ArrayList<>();
 
         //words.add("one");
-        words.add(new Word("father", "әpә", R.drawable.family_father));
-        words.add(new Word("mother", "әṭa", R.drawable.family_mother));
-        words.add(new Word("son", "angsi", R.drawable.family_son));
-        words.add(new Word("daughter", "tune", R.drawable.family_daughter));
-        words.add(new Word("older brother", "taachi", R.drawable.family_older_brother));
-        words.add(new Word("younger brother", "chalitti", R.drawable.family_younger_brother));
-        words.add(new Word("older sister", "teṭe", R.drawable.family_older_sister));
-        words.add(new Word("younger sister", "kolliti", R.drawable.family_younger_sister));
-        words.add(new Word("grandmother", "ama", R.drawable.family_grandmother));
-        words.add(new Word("grandfather", "paapa", R.drawable.family_grandfather));
+        words.add(new Word("father", "әpә", R.drawable.family_father, R.raw.family_father));
+        words.add(new Word("mother", "әṭa", R.drawable.family_mother, R.raw.family_mother));
+        words.add(new Word("son", "angsi", R.drawable.family_son, R.raw.family_son));
+        words.add(new Word("daughter", "tune", R.drawable.family_daughter, R.raw.family_daughter));
+        words.add(new Word("older brother", "taachi", R.drawable.family_older_brother, R.raw.family_older_brother));
+        words.add(new Word("younger brother", "chalitti", R.drawable.family_younger_brother, R.raw.family_younger_brother));
+        words.add(new Word("older sister", "teṭe", R.drawable.family_older_sister, R.raw.family_older_sister));
+        words.add(new Word("younger sister", "kolliti", R.drawable.family_younger_sister, R.raw.family_younger_sister));
+        words.add(new Word("grandmother", "ama", R.drawable.family_grandmother, R.raw.family_grandmother));
+        words.add(new Word("grandfather", "paapa", R.drawable.family_grandfather, R.raw.family_grandfather));
 
         // Create an {@link ArrayAdapter}, whose data source is a list of Strings. The
         // adapter knows how to create layouts for each item in the list, using the
@@ -46,5 +51,41 @@ public class FamilyActivity extends AppCompatActivity {
         // Do this by calling the setAdapter method on the {@link ListView} object and pass in
         // 1 argument, which is the {@link ArrayAdapter} with the variable name itemsAdapter.
         listView.setAdapter(itemsAdapter);
+
+        // Make an OnItemClickListener
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            /**
+             * Callback method to be invoked when an item in this AdapterView has
+             * been clicked.
+             * <p>
+             * Implementers can call getItemAtPosition(position) if they need
+             * to access the data associated with the selected item.
+             *
+             * @param parent   The AdapterView where the click happened.
+             * @param view     The view within the AdapterView that was clicked (this
+             *                 will be a view provided by the adapter)
+             * @param position The position of the view in the adapter.
+             * @param id       The row id of the item that was clicked.
+             */
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Word word = words.get(position);
+                mMediaPlayer = MediaPlayer.create(FamilyActivity.this, word.getSoundResourceId());
+                mMediaPlayer.start();
+                mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.release();
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        mMediaPlayer = null;
+        super.onDestroy();
     }
 }

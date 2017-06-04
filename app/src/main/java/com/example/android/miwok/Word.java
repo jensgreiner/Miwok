@@ -19,6 +19,8 @@ class Word {
     private final String mMiwokTranslation;
     // Image as drawable resource ID for the icon
     private int mImageResourceId = NO_IMAGE_PROVIDED;
+    // Sound as raw resource ID for the sound file
+    private int mSoundResourceId;
 
     // Constructors
 
@@ -28,9 +30,10 @@ class Word {
      * @param defaultTranslation is the word in a language that the user is already familiar with
      * @param miwokTranslation   is the word in the Miwok language
      */
-    public Word(String defaultTranslation, String miwokTranslation) {
+    public Word(String defaultTranslation, String miwokTranslation, int soundResourceId) {
         mDefaultTranslation = defaultTranslation;
         mMiwokTranslation = miwokTranslation;
+        mSoundResourceId = soundResourceId;
     }
 
     /**
@@ -39,11 +42,13 @@ class Word {
      * @param defaultTranslation is the word in a language that the user is already familiar with
      * @param miwokTranslation   is the word in the Miwok language
      * @param imageResourceId    is the image corresponding to the word
+     * @param soundResourceId    is the sound file corresponding to the word
      */
-    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId) {
+    public Word(String defaultTranslation, String miwokTranslation, int imageResourceId, int soundResourceId) {
         mDefaultTranslation = defaultTranslation;
         mMiwokTranslation = miwokTranslation;
         mImageResourceId = imageResourceId;
+        mSoundResourceId = soundResourceId;
     }
 
     // Getters
@@ -59,6 +64,10 @@ class Word {
         return mImageResourceId;
     }
 
+    public int getSoundResourceId() {
+        return mSoundResourceId;
+    }
+
     /**
      * Returns whether or not there is an image for this word.
      *
@@ -68,4 +77,5 @@ class Word {
     public boolean hasImage() {
         return mImageResourceId != NO_IMAGE_PROVIDED;
     }
+
 }
