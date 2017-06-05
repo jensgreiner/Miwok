@@ -11,7 +11,22 @@ import java.util.ArrayList;
 
 public class PhrasesActivity extends AppCompatActivity {
 
+    /**
+     * Handles playback of all the sound files
+     */
     private MediaPlayer mMediaPlayer;
+
+    /**
+     * This listener gets triggered when the {@link MediaPlayer} has completed
+     * playing the audio file.
+     */
+    private MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            // Now that the sound file has finished playing, release the media player resources.
+            releaseMediaPlayer();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +36,7 @@ public class PhrasesActivity extends AppCompatActivity {
         // Initialize words ArrayList
         final ArrayList<Word> words = new ArrayList<>();
 
-        //words.add("one");
+        // Create a list of words
         words.add(new Word("Where are you going?", "minto wuksus", R.raw.phrase_where_are_you_going));
         words.add(new Word("What is your name?", "tinnә oyaase'nә", R.raw.phrase_what_is_your_name));
         words.add(new Word("My name is...", "oyaaset...", R.raw.phrase_my_name_is));
@@ -81,12 +96,7 @@ public class PhrasesActivity extends AppCompatActivity {
                 // To prevent getting MediaPlayer error (-19,0), I added this
                 // @see https://stackoverflow.com/a/9888612/1469260
                 // Updated and refactored with the Udacity code snippet
-                mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        releaseMediaPlayer();
-                    }
-                });
+                mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
             }
         });
     }
