@@ -1,5 +1,7 @@
 package com.example.android.miwok;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,10 +30,72 @@ public class PhrasesActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Handles audio focus when playing a sound file
+     */
+    private AudioManager mAudioManager;
+
+    /**
+     * This listener gets triggered whenever the audio focus changes
+     * (i.e., we gain or lose audio focus because of another app or device).
+     */
+    private AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        /**
+         * Called on the listener to notify it the audio focus for this listener has been changed.
+         * The focusChange value indicates whether the focus was gained,
+         * whether the focus was lost, and whether that loss is transient, or whether the new focus
+         * holder will hold it for an unknown amount of time.
+         * When losing focus, listeners can use the focus change information to decide what
+         * behavior to adopt when losing focus. A music player could for instance elect to lower
+         * the volume of its music stream (duck) for transient focus losses, and pause otherwise.
+         *
+         * @param focusChange the type of focus change, one of {@link AudioManager#AUDIOFOCUS_GAIN},
+         *                    {@link AudioManager#AUDIOFOCUS_LOSS}, {@link AudioManager#AUDIOFOCUS_LOSS_TRANSIENT}
+         *                    and {@link AudioManager#AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK}.
+         */
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            switch (focusChange) {
+                case AudioManager.AUDIOFOCUS_GAIN:
+                    // The AUDIOFOCUS_GAIN case means we have regained focus and can resume playback.
+                    if (mMediaPlayer != null) {
+                        mMediaPlayer.start();
+                    }
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                    // The AUDIOFOCUS_LOSS_TRANSIENT case means that we've lost audio focus for a
+                    // short amount of time. The AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK case means that
+                    // our app is allowed to continue playing sound but at a lower volume. We'll treat
+                    // both cases the same way because our app is playing short sound files.
+
+                    // Pause playback and reset player to the start of the file. That way, we can
+                    // play the word from the beginning when we resume playback.
+                    if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+                        mMediaPlayer.pause();
+                        mMediaPlayer.seekTo(0);
+                    }
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS:
+                    // The AUDIOFOCUS_LOSS case means we've lost audio focus and
+                    // Stop playback and clean up resources
+                    if (mMediaPlayer != null) {
+                        releaseMediaPlayer();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_list);
+
+        // Create and setup the {@link AudioManager} to request audio focus
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         // Initialize words ArrayList
         final ArrayList<Word> words = new ArrayList<>();
@@ -90,13 +154,27 @@ public class PhrasesActivity extends AppCompatActivity {
                 // Call before MediaPlayer is initialized
                 releaseMediaPlayer();
 
-                mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, word.getSoundResourceId());
-                mMediaPlayer.start();
+                // Request audio focus so in order to play the audio file. The app needs to play a
+                // short audio file, so we will request audio focus with a short amount of time
+                // with AUDIOFOCUS_GAIN_TRANSIENT.
+                int result = mAudioManager.requestAudioFocus(mOnAudioFocusChangeListener,
+                        AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
 
-                // To prevent getting MediaPlayer error (-19,0), I added this
-                // @see https://stackoverflow.com/a/9888612/1469260
-                // Updated and refactored with the Udacity code snippet
-                mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    // We have audio focus now
+
+                    // Create and setup the {@link MediaPlayer} for the audio resource associated
+                    // with the current word
+                    mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, word.getSoundResourceId());
+
+                    // Start the audio file
+                    mMediaPlayer.start();
+
+                    // To prevent getting MediaPlayer error (-19,0), I added this
+                    // @see https://stackoverflow.com/a/9888612/1469260
+                    // Updated and refactored with the Udacity code snippet
+                    mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+                }
             }
         });
     }
