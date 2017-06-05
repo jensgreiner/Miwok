@@ -78,4 +78,16 @@ class Word {
         return mImageResourceId != NO_IMAGE_PROVIDED;
     }
 
+    /**
+     * @return a string representation of the objects content
+     */
+    @Override
+    public String toString() {
+        return "Word{" +
+                "mDefaultTranslation='" + mDefaultTranslation + '\'' +
+                ", mMiwokTranslation='" + mMiwokTranslation + '\'' +
+                ", mImageResourceId=" + mImageResourceId +
+                ", mSoundResourceId=" + mSoundResourceId +
+                '}';
+    }
 }
