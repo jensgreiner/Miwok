@@ -20,6 +20,7 @@ class Word {
     // Image as drawable resource ID for the icon
     private int mImageResourceId = NO_IMAGE_PROVIDED;
     // Sound as raw resource ID for the sound file
+    @SuppressWarnings("CanBeFinal")
     private int mSoundResourceId;
 
     // Constructors
