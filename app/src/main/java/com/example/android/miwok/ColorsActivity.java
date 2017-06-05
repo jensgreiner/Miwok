@@ -71,6 +71,9 @@ public class ColorsActivity extends AppCompatActivity {
                 Word word = words.get(position);
                 mMediaPlayer = MediaPlayer.create(ColorsActivity.this, word.getSoundResourceId());
                 mMediaPlayer.start();
+
+                // To prevent getting MediaPlayer error (-19,0), I added this
+                // @see https://stackoverflow.com/a/9888612/1469260
                 mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
