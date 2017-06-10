@@ -30,4 +30,7 @@
     <string name="image_content_description_placeholder">icon</string>
     <string name="icon_play_description">Icon play</string>
     <string name="image_word_description">Image word</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

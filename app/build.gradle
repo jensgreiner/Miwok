@@ -4,12 +4,26 @@ android {
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
 
+    /**
+     * Adds auto incremented versionCode number
+     * Found on stackoverflow
+     * see https://stackoverflow.com/a/25166200/1469260
+     */
+    def Properties versionProps = new Properties()
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.exists())
+        versionProps.load(new FileInputStream(versionPropsFile))
+    def code = (versionProps['VERSION_CODE'] ?: "0").toInteger() + 1
+    versionProps['VERSION_CODE'] = code.toString()
+    versionProps.store(versionPropsFile.newWriter(), null)
+
     defaultConfig {
         applicationId "com.example.android.miwok"
         minSdkVersion 15
+        //noinspection OldTargetApi
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode code
+        versionName "1.2"
     }
     buildTypes {
         release {
