@@ -9,9 +9,10 @@ import android.support.v4.app.FragmentPagerAdapter;
  * Created by Jens Greiner on 10.06.17.
  */
 
-public class CategoryFragmentPagerAdapter extends FragmentPagerAdapter {
+@SuppressWarnings("WeakerAccess")
+public class CategoryAdapter extends FragmentPagerAdapter {
 
-    public CategoryFragmentPagerAdapter(FragmentManager fm) {
+    public CategoryAdapter(FragmentManager fm) {
         super(fm);
     }
 
